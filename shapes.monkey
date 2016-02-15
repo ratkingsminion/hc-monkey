@@ -64,8 +64,12 @@ Public
 		Return _rotation
 	End
 	
-	Method SetRotation:Float(angle:Float, x:Float, y:Float)
-		Return Rotate(angle - _rotation, x, y)
+	Method SetRotation:Void(angle:Float)
+		Rotate(angle - _rotation)
+	End
+	
+	Method SetRotation:Void(angle:Float, x:Float, y:Float)
+		Rotate(angle - _rotation, x, y)
 	End
 	
 
@@ -425,7 +429,7 @@ Class CircleShape Extends Shape
 				' otherwise push out in best direction
 				Vector.Normalize(p)
 				Vector.Mul(radii - Sqrt(d), p)
-				Return[1.0, p[0], p[1]]
+				Return p
 			EndIf
 			Return[]
 		ElseIf other._type = "polygon" Then
@@ -433,7 +437,7 @@ Class CircleShape Extends Shape
 		End
 		' else: let the other shape decide
 		Local collData:= other.CollidesWith(Self)
-		If collData.Length() > 0 Then Return[ - collData[1], -collData[2]]
+		If collData.Length() > 0 Then Return[ - collData[0], -collData[1]]
 		Return[]
 	End
 
